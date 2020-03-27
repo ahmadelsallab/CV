@@ -24,7 +24,7 @@ To start a demo website, the easiest way is to follow the official Django tutori
 
 We use bootstrap for the styles and "look and feel"
 
-# Important wensite configurations
+# Important website configurations
 
 
 ## urls
@@ -47,6 +47,8 @@ urlpatterns = [
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
+The last line is particularly important, since the `MEDIA_URL` is the path to the `/media/` directory, which has all the image files (input and output), that the code will use. So it's impartant to have that URL configured so that the templates can find those images when passed from the backend. In other words, the `/media/` directory is the link or shared space the links the backend and the front end.
+
 And 3 sub-apps routes representing our 3 tasks:
 
 __deployment/cv/urls.py__
@@ -62,6 +64,28 @@ urlpatterns = [
     path('object_detection', views.object_detection, name='object_detection')
 ]
 ```
+
+The configured `urlpatterns` will set the default landing page to the `base.html`, which will be rendered using the backed function `views.base`. This is simply rendering the `base.html` template.
+
+The `base.html` has the main navigation bar. When the user clicks any of the tasks, the website is routed to the required backend:
+
+```
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="classification">Classification</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="semantic_segmentation">Semantic Segmentation</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="object_detection">Object Detection</a>
+      </li>
+    </ul>
+```
+
+Each `href` above will route to the configured url. In `cv/urls.py` we already configured which backend handler will take care of those.
+
+In this way, this is the main _maestro_ of the app routes.
 
 ## templates
 We need front end html files that handle the requests or urls above.
