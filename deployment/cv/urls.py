@@ -18,9 +18,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.upload, name='upload'),
-    path('upload', views.upload, name='upload'),
-    path('classify_api', views.classify_api, name='classify_api'),
-	path('semantic_seg_api', views.semantic_seg_api, name='semantic_seg_api'),
-    path('object_det_api', views.object_det_api, name='object_det_api')
+    path('', views.base, name='base'),
+    path('classification', views.classification, name='classification'),
+	path('semantic_segmentation', views.semantic_segmentation, name='semantic_segmentation'),
+    path('object_detection', views.object_detection, name='object_detection')
 ]

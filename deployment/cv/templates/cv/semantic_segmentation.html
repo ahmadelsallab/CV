@@ -8,15 +8,19 @@
     {% csrf_token %}
     <input type="file" name="myfile">
     <button type="submit">Upload</button>
-  </form>
+</form>
 
 
 
-  {% if original_img %}
-	<h3>{{prediction}}</h3>
-	<img src="{{ original_img }}" alt="Prediction" width="500" height="333">
+{% if original_img %}
+<img src="{{ original_img }}" alt="Original" width="500" height="333">
 
-  {% endif %}
+{% endif %}
+
+{% if segmented_img %}
+<img src="{{ segmented_img }}" alt="Segmented" width="500" height="333">
+
+{% endif %}
 
 
 {% endblock %}
