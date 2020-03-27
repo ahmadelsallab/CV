@@ -1,6 +1,6 @@
 # Computer Vision Demo with Django
 
-The aim of this project is to demonstrate how to deploy ML and CV models using Django.
+The aim of this project is to demonstrate how to deploy ML and CV models using Django. More details [here](https://docs.google.com/document/d/1TnhdRsnZlnHUEUlko6-XeMhBXONC3PQpjLp1IhExnMc/edit#).
 
 ![CV_tasks](https://ml4a.github.io/images/figures/localization-detection.png)
 
@@ -24,12 +24,197 @@ To start a demo website, the easiest way is to follow the official Django tutori
 
 We use bootstrap for the styles and "look and feel"
 
+# Important wensite configurations
 
-# Installation
+
+## urls
+
+Here we configure the routes of our website.
+
+We have a main application route:
+
+__deployment/urls.py__
+
+```
+from django.conf import settings
+ 
+urlpatterns = [
+    path('cv/', include('cv.urls')),
+]
+ 
+
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+```
+
+And 3 sub-apps routes representing our 3 tasks:
+
+__deployment/cv/urls.py__
+```
+from django.urls import path
+ 
+from . import views
+ 
+urlpatterns = [
+    path('', views.base, name='base'),
+    path('classification', views.classification, name='classification'),
+    path('semantic_segmentation', views.semantic_segmentation, name='semantic_segmentation'),
+    path('object_detection', views.object_detection, name='object_detection')
+]
+```
+
+## templates
+We need front end html files that handle the requests or urls above.
+Those reside in the templates/cv folder.
+
+__base.html__
+This is just a fancy website theme, that all the other 3 tasks templates inherit from. It uses bootstrap for a modern look and feel.
+
+__classification.html__
+
+This one will have an upload file form, and output processing part that renders the uploaded image + the returned prediction:
+
+```
+{% extends 'base.html' %}
+ 
+ 
+ 
+{% block content %}
+ 
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <button type="submit">Upload</button>
+  </form>
+ 
+ 
+ 
+  {% if original_img %}
+  <h3>{{prediction}}</h3>
+  <img src="{{ original_img }}" alt="Prediction" width="500" height="333">
+ 
+  {% endif %}
+ 
+ 
+{% endblock %}
+```
+
+
+__semantic_segmentation.html__
+This one will have an upload file form, and output processing part that renders the uploaded image, and the segmented image that is passed from the backed:
+
+```
+{% block content %}
+ 
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <button type="submit">Upload</button>
+</form>
+ 
+ 
+ 
+{% if original_img %}
+<img src="{{ original_img }}" alt="Original" width="500" height="333">
+ 
+{% endif %}
+ 
+{% if segmented_img %}
+<img src="{{ segmented_img }}" alt="Segmented" width="500" height="333">
+ 
+{% endif %}
+ 
+ 
+{% endblock %}
+
+```
+
+__object_detection.html__
+
+This is similar to the `semantic_segmentation.html` template
+
+## views
+
+__cv/views.py__
+
+Configure the 3 tasks call backs. This where all the action happens, or the __backend__
+
+Each of one those does the following:
+
+- handles the `POST` request of the upload button. If not file uploaded, the basic template (without predictions) is rendered.
+- passes the uploaded image file to the prediction model.
+- renders back the html template with the returned prediction from the model. In cases of object detection and segmentation, those are the paths of the saved images.
+
+```
+def classification(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        img_file = fs.url(filename)
+        
+        pred = #make prediction
+        return render(request, 'cv/classification.html', {'original_img': img_file,
+                                                            'prediction': pred})
+        
+    return render(request, 'cv/classification.html')   
+```
+
+
+```
+def semantic_segmentation(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        img_file = fs.url(filename)
+        
+        seg_file = #get_segmentation
+ 
+        return render(request, 'cv/semantic_segmentation.html', {'original_img': img_file,
+                                                                 'segmented_img': '/media/seg_img.png'})
+        
+    return render(request, 'cv/semantic_segmentation.html') 
+```
+```
+def object_detection(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        img_file = fs.url(filename)
+        
+        
+        obb_file = #detect objects
+ 
+ 
+        return render(request, 'cv/object_detection.html', {'original_img': img_file,
+                                                            'obb_img': '/media/obb_img.png'})
+        
+    return render(request, 'cv/object_detection.html') 
+```
+
+
+
+
+# Installation on server
 
 ```
 git clone https://github.com/ahmadelsallab/CV.git
 pip install -r requirements
+```
+
+Exceptions for manual installation:
+- System wide packages:
+```
+sudo apt install python3-opencv
+```
+- Memory error tensorflow:
+```
+pip install --no-cache-dir tensorflow
 ```
 
 # Deploy local
@@ -57,6 +242,17 @@ You need to keep connected with SSH to the machine. If it's closed, the website 
 
 ## Apache and mod_wsgi
 We use Apache to prevent the above problem, and have a permenant server listening to our website requests even is SSH disconnects.
+- Apache = a server program to listen on server ports and serve requests
+- mod_wsgi = python wrapper package to run python based websites on the server
+
+All details can be found [here](https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-16-04)
+Assuming you work with Python3
+
+- Setup packages for apache2 and mod_wsgi
+```
+sudo apt-get update
+sudo apt-get install python3-pip apache2 libapache2-mod-wsgi-py3
+```
 
 
 ## EC2 Instance Choice
@@ -73,24 +269,34 @@ We use Apache to prevent the above problem, and have a permenant server listenin
 
 ### SSH
 
-Command line:
-If you press Connect you get clear instructions, make sure to choose the instance:
+__Command line:__
 
+If you press "Connect" in the EC2 console you get clear instructions, make sure to choose the instance.
+Doing so is just fine to ssh. However, you still to connect FTP client to download and upload files to the instance. PUTTY can be used. 
 
-Doing so is just fine to ssh. 
-However, you still to connect FTP client to download and upload files to the instance.
-PUTTY can be used. 
-But in this way you need to do different steps for FTP and SSH
+But in this way you need to do different steps for FTP and SSH.
 
-I found MobaXTerm a conventient 2-in-1 alternative.
-Here’s how to use to connect to your instance:
+__MobaXTerm:__
 
+I found MobaXTerm a conventient 2-in-1 alternative. Here’s how to use to connect to your instance:
+- New session
+- Configure the ip=dns name and user=ubuntu
+- Add private key, which you saved when creating the instance
 
+### Apache configuration
+All details can be found [here](https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-16-04)
 
+Restart Apache:
+```
+sudo systemctl restart apache2
+```
 
+If failed, you can check syntax using:
+```
+apachectl configtest
+```
 
-Voila! You’re are connected to your instance!
-
-
-### Packages
-
+For any error log:
+```
+cat /var/log/apache2/error.log
+```
