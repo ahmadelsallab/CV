@@ -34,11 +34,11 @@ Details can be found in this [colab](https://colab.research.google.com/drive/1PF
 
 - [Semantic segmentaion](https://colab.research.google.com/drive/18JS1Uks8OGut_q-SQLGtu9xbrMpNhvnA?authuser=1#scrollTo=zc27WzsQTLdk): We use pre-trained FCN model from torchvision. Details can be found in this [colab](https://colab.research.google.com/drive/1qPDMWYzqdqEOAut7eDp1jFLREfEm1Kx9).
 
-![SS](https://github.com/ahmadelsallab/CV/blob/master/imgs/SS.png)
+![SS](imgs/SS.png)
 
 - [Object detection](https://colab.research.google.com/drive/1rwS0BNfaejB7_8mEXVLlZKSpvBjaBq2I?authuser=1#scrollTo=SvfygrRHMw0F): We use pre-trained Faster R-CNN model from torchvision. . Details can be found in this [colab](https://colab.research.google.com/drive/1UTmfq11e_Lv2ZLGtJOYFoVuPBGe0w9FG).
 
-![OBB](https://github.com/ahmadelsallab/CV/blob/master/imgs/OBB.png)
+![OBB](imgs/OBB.png)
 
 # Django framework
 
@@ -361,31 +361,31 @@ Now you are good to go to the server to deploy from there.
 - Create AWS account
 - Log on and go to [EC2](https://console.aws.amazon.com/ec2)
 - Launch new instance
-![launch_ec2](https://github.com/ahmadelsallab/CV/blob/master/imgs/launch_ec2.png)
+![launch_ec2](imgs/launch_ec2.png)
 
 
 - Choose Free tier (unless you want to buy strong computation, check [pricing](https://aws.amazon.com/ec2/pricing/))
 - Choose Ubuntu instance
-![ubuntu_ec2](https://github.com/ahmadelsallab/CV/blob/master/imgs/ubuntu_ec2.png)
+![ubuntu_ec2](imgs/ubuntu_ec2.png)
 
-![instance_type_ec2](https://github.com/ahmadelsallab/CV/blob/master/imgs/instance_type_ec2.png)
+![instance_type_ec2](imgs/instance_type_ec2.png)
 
 - Choose private key. Keep the private key, otherwise you won't be able to access the instance via SSH.
-![EC2_key](https://github.com/ahmadelsallab/CV/blob/master/imgs/EC2_key.png)
+![EC2_key](imgs/EC2_key.png)
 
 - Review and Launch 
-![launch_rev](https://github.com/ahmadelsallab/CV/blob/master/imgs/launch_rev.png)
+![launch_rev](imgs/launch_rev.png)
 
 - Configure the security policy. Enable ALL traffic on inbound and outbound rules
-![security_policy](https://github.com/ahmadelsallab/CV/blob/master/imgs/security_policy.png)
+![security_policy](imgs/security_policy.png)
 
-![inbound_rules](https://github.com/ahmadelsallab/CV/blob/master/imgs/inbound_rules.png)
+![inbound_rules](imgs/inbound_rules.png)
 
-![inbound_all_traffic](https://github.com/ahmadelsallab/CV/blob/master/imgs/inbound_all_traffic.png)
+![inbound_all_traffic](imgs/inbound_all_traffic.png)
 
-![outbound_rules](https://github.com/ahmadelsallab/CV/blob/master/imgs/outbound_rules.png)
+![outbound_rules](imgs/outbound_rules.png)
 
-![outbound_all_traffic](https://github.com/ahmadelsallab/CV/blob/master/imgs/outbound_all_traffic.png)
+![outbound_all_traffic](imgs/outbound_all_traffic.png)
 
 
 
@@ -402,21 +402,21 @@ Doing so is just fine to ssh. However, you still to connect FTP client to downlo
 
 But in this way you need to do different steps for FTP and SSH.
 
-![SS_cmd](https://github.com/ahmadelsallab/CV/blob/master/imgs/SSH%20EC2%20commandline.png)
+![SS_cmd](imgs/SSH%20EC2%20commandline.png)
 
 
 __MobaXTerm:__
 
 I found MobaXTerm a conventient 2-in-1 alternative. Here’s how to use to connect to your instance:
 - New session
-![MobaXTerm](https://github.com/ahmadelsallab/CV/blob/master/imgs/MobaXTerm.png)
+![MobaXTerm](imgs/MobaXTerm.png)
 
 - Configure the ip=dns name and user=ubuntu
 - Add private key, which you saved when creating the instance
-![MobaSettings](https://github.com/ahmadelsallab/CV/blob/master/imgs/MobaXTerm%20settings.png)
+![MobaSettings](imgs/MobaXTerm%20settings.png)
 
 - Now you are connected!
-![MobaXterm_connected](https://github.com/ahmadelsallab/CV/blob/master/imgs/MobaXterm_connected.png)
+![MobaXterm_connected](imgs/MobaXterm_connected.png)
 
 
 Now get the code to the server
