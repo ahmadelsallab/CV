@@ -25,9 +25,13 @@ We use examples from the top two ML frameworks: Tensorflow/Keras and Pytorch
 
 The tasks demonstrated are (click on each to see the corresponding colab):
 
-- [Classification](https://colab.research.google.com/drive/1DUSjbepetl8NzR1Jyffw_R7IbR3eekFk?authuser=1#scrollTo=RUAoLChNQZBN): We use pre-trained VGG model with Keras
+- [Classification](https://colab.research.google.com/drive/1DUSjbepetl8NzR1Jyffw_R7IbR3eekFk?authuser=1#scrollTo=RUAoLChNQZBN): We use pre-trained VGG model with Keras.
+
+![cls](https://github.com/ahmadelsallab/CV/blob/master/imgs/cls.png)
 
 - [Semantic segmentaion](https://colab.research.google.com/drive/18JS1Uks8OGut_q-SQLGtu9xbrMpNhvnA?authuser=1#scrollTo=zc27WzsQTLdk): We use pre-trained FCN model from torchvision
+
+![SS](https://github.com/ahmadelsallab/CV/blob/master/imgs/SS.png)
 
 - [Object detection](https://colab.research.google.com/drive/1rwS0BNfaejB7_8mEXVLlZKSpvBjaBq2I?authuser=1#scrollTo=SvfygrRHMw0F): We use pre-trained Faster R-CNN model from torchvision 
 
