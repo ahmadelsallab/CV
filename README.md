@@ -30,7 +30,7 @@ The tasks demonstrated are (click on each to see the corresponding colab):
 - [Classification](https://colab.research.google.com/drive/1PFfQB11RKzpbpKhQ57yIN8OnLLNFoIXe): We use pre-trained VGG model with Keras.
 Details can be found in this [colab](https://colab.research.google.com/drive/1PFfQB11RKzpbpKhQ57yIN8OnLLNFoIXe).
 
-![cls](https://github.com/ahmadelsallab/CV/blob/master/imgs/cls.png)
+![cls](imgs/cls.png)
 
 - [Semantic segmentaion](https://colab.research.google.com/drive/18JS1Uks8OGut_q-SQLGtu9xbrMpNhvnA?authuser=1#scrollTo=zc27WzsQTLdk): We use pre-trained FCN model from torchvision. Details can be found in this [colab](https://colab.research.google.com/drive/1qPDMWYzqdqEOAut7eDp1jFLREfEm1Kx9).
 
