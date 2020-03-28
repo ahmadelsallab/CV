@@ -344,6 +344,71 @@ git push origin
 Now you are good to go to the server to deploy from there.
 
 # Server side
+## Deploy on AWS EC2
+
+
+
+### EC2 Instance Choice
+- Create AWS account
+- Log on and go to [EC2](https://console.aws.amazon.com/ec2)
+- Launch new instance
+![launch_ec2](https://github.com/ahmadelsallab/CV/blob/master/imgs/launch_ec2.png)
+
+
+- Choose Free tier (unless you want to buy strong computation, check [pricing](https://aws.amazon.com/ec2/pricing/))
+- Choose Ubuntu instance
+![ubuntu_ec2](https://github.com/ahmadelsallab/CV/blob/master/imgs/ubuntu_ec2.png)
+
+![instance_type_ec2](https://github.com/ahmadelsallab/CV/blob/master/imgs/instance_type_ec2.png)
+
+- Choose private key. Keep the private key, otherwise you won't be able to access the instance via SSH.
+![EC2_key](https://github.com/ahmadelsallab/CV/blob/master/imgs/EC2_key.png)
+
+- Review and Launch 
+![launch_rev](https://github.com/ahmadelsallab/CV/blob/master/imgs/launch_rev.png)
+
+- Configure the security policy. Enable ALL traffic on inbound and outbound rules
+![security_policy](https://github.com/ahmadelsallab/CV/blob/master/imgs/security_policy.png)
+
+![inbound_rules](https://github.com/ahmadelsallab/CV/blob/master/imgs/inbound_rules.png)
+
+![inbound_all_traffic](https://github.com/ahmadelsallab/CV/blob/master/imgs/inbound_all_traffic.png)
+
+![outbound_rules](https://github.com/ahmadelsallab/CV/blob/master/imgs/outbound_rules.png)
+
+![outbound_all_traffic](https://github.com/ahmadelsallab/CV/blob/master/imgs/outbound_all_traffic.png)
+
+
+
+
+
+### EC2 Instance Setup 
+
+## Connect/SSH to your instance
+
+__Command line:__
+
+If you press "Connect" in the EC2 console you get clear instructions, make sure to choose the instance.
+Doing so is just fine to ssh. However, you still to connect FTP client to download and upload files to the instance. PUTTY can be used. 
+
+But in this way you need to do different steps for FTP and SSH.
+
+![SS_cmd](https://github.com/ahmadelsallab/CV/blob/master/imgs/SSH%20EC2%20commandline.png)
+
+
+__MobaXTerm:__
+
+I found MobaXTerm a conventient 2-in-1 alternative. Here’s how to use to connect to your instance:
+- New session
+![MobaXTerm](https://github.com/ahmadelsallab/CV/blob/master/imgs/MobaXTerm.png)
+
+- Configure the ip=dns name and user=ubuntu
+- Add private key, which you saved when creating the instance
+![MobaSettings](https://github.com/ahmadelsallab/CV/blob/master/imgs/MobaXTerm%20settings.png)
+
+- Now you are connected!
+![MobaXterm_connected](https://github.com/ahmadelsallab/CV/blob/master/imgs/MobaXterm_connected.png)
+
 
 Now get the code to the server
 
@@ -381,7 +446,6 @@ pip install --no-cache-dir tensorflow
 ```
 
 
-# Deploy on AWS EC2
 ## Using Django Dev server
 
 - On the server side:
@@ -460,36 +524,4 @@ For any error log:
 ```
 cat /var/log/apache2/error.log
 ```
-
-
-## EC2 Instance Choice
-- Create AWS account
-- Log on and go to [EC2](https://console.aws.amazon.com/ec2)
-- Launch new instance
-![launch_ec2](https://github.com/ahmadelsallab/CV/blob/master/imgs/launch_ec2.png)
-
-- Choose Free tier (unless you want to buy strong computation, check [pricing](https://aws.amazon.com/ec2/pricing/))
-- Choose Ubuntu instance
-- Choose private key
-- Keep the private key, otherwise you won't be able to access the instance via SSH
-- Configure the security policy. Enable ALL traffic on inbound and outbound rules
-
-## EC2 Instance Setup 
-
-## Connect/SSH to your instance
-
-__Command line:__
-
-If you press "Connect" in the EC2 console you get clear instructions, make sure to choose the instance.
-Doing so is just fine to ssh. However, you still to connect FTP client to download and upload files to the instance. PUTTY can be used. 
-
-But in this way you need to do different steps for FTP and SSH.
-
-__MobaXTerm:__
-
-I found MobaXTerm a conventient 2-in-1 alternative. Here’s how to use to connect to your instance:
-- New session
-- Configure the ip=dns name and user=ubuntu
-- Add private key, which you saved when creating the instance
-
 
