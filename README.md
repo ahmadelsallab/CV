@@ -22,6 +22,8 @@ I had gone through the process of deploying ML models in a Django website, on AW
 
 ![CV_tasks](https://ml4a.github.io/images/figures/localization-detection.png)
 
+_Source: Stanford Course CS231n. Url: https://ml4a.github.io/images/figures/localization-detection.png_
+
 Since our target is just to demo the deployment, we use pre-trained models. Note that: all the steps mentioned are still applicable in case of custom trained models.
 We use examples from the top two ML frameworks: Tensorflow/Keras and Pytorch 
 
