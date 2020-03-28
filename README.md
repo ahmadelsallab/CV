@@ -414,8 +414,8 @@ sudo apt-get update
 sudo apt-get install python3-pip apache2 libapache2-mod-wsgi-py3
 ```
 
-### Configure Apache:
-### Apache configuration
+
+## Apache configuration
 All details can be found [here](https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-16-04)
 
 Now you need to edit the apache2 configuration file:
@@ -466,6 +466,8 @@ cat /var/log/apache2/error.log
 - Create AWS account
 - Log on and go to [EC2](https://console.aws.amazon.com/ec2)
 - Launch new instance
+![launch_ec2](https://github.com/ahmadelsallab/CV/blob/master/imgs/launch_ec2.png)
+
 - Choose Free tier (unless you want to buy strong computation, check [pricing](https://aws.amazon.com/ec2/pricing/))
 - Choose Ubuntu instance
 - Choose private key
@@ -474,7 +476,7 @@ cat /var/log/apache2/error.log
 
 ## EC2 Instance Setup 
 
-### SSH
+## Connect/SSH to your instance
 
 __Command line:__
 
