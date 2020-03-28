@@ -1,4 +1,4 @@
-# Computer Vision Demo with Django
+# Deployment of Computer Vision models with Django on AWS EC2
 
 The aim of this tutorial is to demonstrate how to deploy ML and CV models using Django. 
 
