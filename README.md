@@ -302,6 +302,12 @@ cd CV/deployment
 python manage.py runserver
 ```
 
+Now of you in the browser to:
+```
+127.0.0.1:8000/cv
+```
+
+You will see the website up and running.
 
 ## Collect requirements.txt
 Eiter you are working inside a virtual environmment, in which case you just need to:
@@ -458,7 +464,7 @@ Modify your settings file to enable the remote host IP:
 ALLOWED_HOSTS = ["server_domain_or_IP"]
 ```
 
-- On the local side: connect to your remote machine in SSH: see below, the open the ip_address:8000
+- On the local side: connect to your remote machine in SSH as described, then in the browser, open the `ip_address:8000/cv` or `dns_name:8000/cv`, you will see the website up and running.
 
 __What's wrong with this approach?__
 You need to keep connected with SSH to the machine. If it's closed, the website is down.
@@ -523,4 +529,6 @@ For any error log:
 ```
 cat /var/log/apache2/error.log
 ```
+
+Go to the browser, open the `ip_address/cv` or `dns_name/cv`, you will see the website up and running.
 
