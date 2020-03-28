@@ -35,6 +35,8 @@ The tasks demonstrated are (click on each to see the corresponding colab):
 
 - [Object detection](https://colab.research.google.com/drive/1rwS0BNfaejB7_8mEXVLlZKSpvBjaBq2I?authuser=1#scrollTo=SvfygrRHMw0F): We use pre-trained Faster R-CNN model from torchvision 
 
+![OBB](https://github.com/ahmadelsallab/CV/blob/master/imgs/OBB.png)
+
 ## Why Django
 Django provides a full framework, to develop both backend and front end parts of a website, in Python.
 Flask is easier, but requires some extra effort to add front end part.
