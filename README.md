@@ -1,7 +1,23 @@
 # Computer Vision Demo with Django
 
-The aim of this project is to demonstrate how to deploy ML and CV models using Django. More details [here](https://docs.google.com/document/d/1TnhdRsnZlnHUEUlko6-XeMhBXONC3PQpjLp1IhExnMc/edit#).
+The aim of this project is to demonstrate how to deploy ML and CV models using Django. 
 
+I had gone through the process of deploying ML models in a Django website, on AWS EC2 instances. The process is a bit tedious and full of small details, so I thought to share my experience.
+
+More details [here](https://docs.google.com/document/d/1TnhdRsnZlnHUEUlko6-XeMhBXONC3PQpjLp1IhExnMc/edit#).
+
+# Layout of the tutorial
+
+- Local/dev side
+  - ML models side
+  - Django framework side
+  
+- Server side
+  - Website settings
+  - Remote server setup/Apache configuration
+  - Remote instance (EC2) choice
+  
+# CV Tasks deployed
 ![CV_tasks](https://ml4a.github.io/images/figures/localization-detection.png)
 
 Since our target is just to demo the deployment, we use pre-trained models. Note that: all the steps mentioned are still applicable in case of custom trained models.
