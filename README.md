@@ -1,6 +1,6 @@
 # Computer Vision Demo with Django
 
-The aim of this project is to demonstrate how to deploy ML and CV models using Django. 
+The aim of this tutorial is to demonstrate how to deploy ML and CV models using Django. 
 
 I had gone through the process of deploying ML models in a Django website, on AWS EC2 instances. The process is a bit tedious and full of small details, so I thought to share my experience.
 
@@ -28,15 +28,16 @@ We use examples from the top two ML frameworks: Tensorflow/Keras and Pytorch
 
 The tasks demonstrated are (click on each to see the corresponding colab):
 
-- [Classification](https://colab.research.google.com/drive/1DUSjbepetl8NzR1Jyffw_R7IbR3eekFk?authuser=1#scrollTo=RUAoLChNQZBN): We use pre-trained VGG model with Keras.
+- [Classification](https://colab.research.google.com/drive/1PFfQB11RKzpbpKhQ57yIN8OnLLNFoIXe): We use pre-trained VGG model with Keras.
+Details can be found in this [colab](https://colab.research.google.com/drive/1PFfQB11RKzpbpKhQ57yIN8OnLLNFoIXe).
 
 ![cls](https://github.com/ahmadelsallab/CV/blob/master/imgs/cls.png)
 
-- [Semantic segmentaion](https://colab.research.google.com/drive/18JS1Uks8OGut_q-SQLGtu9xbrMpNhvnA?authuser=1#scrollTo=zc27WzsQTLdk): We use pre-trained FCN model from torchvision
+- [Semantic segmentaion](https://colab.research.google.com/drive/18JS1Uks8OGut_q-SQLGtu9xbrMpNhvnA?authuser=1#scrollTo=zc27WzsQTLdk): We use pre-trained FCN model from torchvision. Details can be found in this [colab](https://colab.research.google.com/drive/1qPDMWYzqdqEOAut7eDp1jFLREfEm1Kx9).
 
 ![SS](https://github.com/ahmadelsallab/CV/blob/master/imgs/SS.png)
 
-- [Object detection](https://colab.research.google.com/drive/1rwS0BNfaejB7_8mEXVLlZKSpvBjaBq2I?authuser=1#scrollTo=SvfygrRHMw0F): We use pre-trained Faster R-CNN model from torchvision 
+- [Object detection](https://colab.research.google.com/drive/1rwS0BNfaejB7_8mEXVLlZKSpvBjaBq2I?authuser=1#scrollTo=SvfygrRHMw0F): We use pre-trained Faster R-CNN model from torchvision. . Details can be found in this [colab](https://colab.research.google.com/drive/1UTmfq11e_Lv2ZLGtJOYFoVuPBGe0w9FG).
 
 ![OBB](https://github.com/ahmadelsallab/CV/blob/master/imgs/OBB.png)
 
