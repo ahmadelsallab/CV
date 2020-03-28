@@ -17,7 +17,10 @@ More details [here](https://docs.google.com/document/d/1TnhdRsnZlnHUEUlko6-XeMhB
   - Remote server setup/Apache configuration
   - Remote instance (EC2) choice
   
-# CV Tasks deployed
+# Local development side
+
+## ML/CV tasks
+
 ![CV_tasks](https://ml4a.github.io/images/figures/localization-detection.png)
 
 Since our target is just to demo the deployment, we use pre-trained models. Note that: all the steps mentioned are still applicable in case of custom trained models.
@@ -243,10 +246,14 @@ def object_detection(request):
     return render(request, 'cv/object_detection.html') 
 ```
 
+## Deploy local
+```
+cd CV/deployment
+python manage.py runserver
+```
 
-
-
-# Installation on server
+# Server side
+## Installation on server
 
 ```
 git clone https://github.com/ahmadelsallab/CV.git
@@ -263,11 +270,7 @@ sudo apt install python3-opencv
 pip install --no-cache-dir tensorflow
 ```
 
-# Deploy local
-```
-cd CV/deployment
-python manage.py runserver
-```
+
 # Deploy on AWS EC2
 ## Using Django Dev server
 
