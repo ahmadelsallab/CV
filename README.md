@@ -41,19 +41,69 @@ Details can be found in this [colab](https://colab.research.google.com/drive/1PF
 
 ![OBB](https://github.com/ahmadelsallab/CV/blob/master/imgs/OBB.png)
 
+# Django framework
+
 ## Why Django
 Django provides a full framework, to develop both backend and front end parts of a website, in Python.
 Flask is easier, but requires some extra effort to add front end part.
 
 To start a demo website, the easiest way is to follow the official Django tutorial [here](https://docs.djangoproject.com/en/3.0/intro/tutorial01/)
+
 ## Bootstrap
 
-We use bootstrap for the styles and "look and feel"
+We use bootstrap for the styles and "look and feel".
 
-# Important website configurations
+We add the following on top our base.html, which we extend in all our templates (see below):
+```
+
+  <!-- Bootstrap CSS 4.3.1 -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/4.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>	
+ ```
+## Install Django
+```
+pip install django
+```
+
+## Start a project
+Now we create our deployment project inside the repo main folder (CV):
+
+```
+django-admin startproject deployment
+```
+This will create the basic website files, like the entry point of the landing page, urls routing,..etc. But no applications yet.
+
+## Add our Computer Vision (CV) application
+Here we create our computer vision 3 tasks application:
+
+```
+python manage.py startapp cv
+```
+
+This will create the application files, like the urls routing, backends (views),...etc
+
+In the current repo, we also have another app, which is taking video, and predicting semantic segmentation and object detection for the whole video, called cv_vid:
+```
+python manage.py startapp cv_vid
+```
+
+Now we created the project skeleton:
+- CV
+  - deployment
+    - deployment
+    - cv
+    - cv_vid
+ 
+ Below, we configure the important parts for our website to work.
 
 
-## urls
+
+## URLs routing
 
 Here we configure the routes of our website.
 
@@ -76,7 +126,6 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 The last line is particularly important, since the `MEDIA_URL` is the path to the `/media/` directory, which has all the image files (input and output), that the code will use. So it's impartant to have that URL configured so that the templates can find those images when passed from the backend. In other words, the `/media/` directory is the link or shared space the links the backend and the front end.
 
 And 3 sub-apps routes representing our 3 tasks:
-
 __deployment/cv/urls.py__
 ```
 from django.urls import path
@@ -93,6 +142,7 @@ urlpatterns = [
 
 The configured `urlpatterns` will set the default landing page to the `base.html`, which will be rendered using the backed function `views.base`. This is simply rendering the `base.html` template.
 
+## Front-end
 The `base.html` has the main navigation bar. When the user clicks any of the tasks, the website is routed to the required backend:
 
 ```
@@ -113,9 +163,9 @@ Each `href` above will route to the configured url. In `cv/urls.py` we already c
 
 In this way, this is the main _maestro_ of the app routes.
 
-## templates
+### templates
 We need front end html files that handle the requests or urls above.
-Those reside in the templates/cv folder.
+Those reside in the cv/templates/cv folder.
 
 __base.html__
 This is just a fancy website theme, that all the other 3 tasks templates inherit from. It uses bootstrap for a modern look and feel.
@@ -183,7 +233,7 @@ __object_detection.html__
 
 This is similar to the `semantic_segmentation.html` template
 
-## views
+## Backend
 
 __cv/views.py__
 
@@ -253,11 +303,70 @@ cd CV/deployment
 python manage.py runserver
 ```
 
+
+## Collect requirements.txt
+Eiter you are working inside a virtual environmment, in which case you just need to:
+
+```
+pip freeze requirments.txt
+```
+
+Or if you just work with system-wide python, or conda environment, then you can use pipreqs:
+
+```
+pip install pipreqs
+cd <project_dir>
+pipreqs .
+```
+
+This will get the `requirements.txt`
+
+## Push to git
+You first need to add git:
+```
+cd <project_dir>
+git init
+```
+
+Now, if you work on github or any other git framework remote host, you need to add this to your remote:
+
+```
+git remote add <remote repo url>
+```
+
+Now we push to git:
+```
+git add *
+git commit -am"commit msg"
+git push origin
+```
+
+Now you are good to go to the server to deploy from there.
+
 # Server side
-## Installation on server
+
+Now get the code to the server
 
 ```
 git clone https://github.com/ahmadelsallab/CV.git
+```
+
+## Virtual env
+
+We need our code to run inside a virtual environment, since we will need this later in Apache configuration. This will contain the python interpreter and all the site-packages we need for the project.
+
+```
+pip install virtualenv
+```
+
+Now create and activate the env
+```
+virtualenv venv
+source venev/bin/activate
+```
+
+Now inside the venv, we install the requirements
+```
 pip install -r requirements
 ```
 
@@ -277,6 +386,7 @@ pip install --no-cache-dir tensorflow
 
 - On the server side:
 ```
+sudo ufw allow 8000
 python manage.py runserver 0.0.0.0:8000
 ```
 
@@ -302,6 +412,53 @@ Assuming you work with Python3
 ```
 sudo apt-get update
 sudo apt-get install python3-pip apache2 libapache2-mod-wsgi-py3
+```
+
+### Configure Apache:
+### Apache configuration
+All details can be found [here](https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-16-04)
+
+Now you need to edit the apache2 configuration file:
+```
+sudo nano /etc/apache2/sites-available/000-default.conf
+``
+
+This file tells Apache which entry point to serve, when called with a certain url. You need to add the following:
+
+```
+<VirtualHost *:80>
+  
+    ....
+    
+    <Directory /home/<user>/<project_directory>/CV/deployment/deployment/>
+        <Files wsgi.py>
+            Require all granted
+        </Files>
+    </Directory>
+
+    WSGIDaemonProcess cv python-home=/home/<user>/<venv_directory> python-path=/home/<user>/<project_directory>/CV/deployment/deployment
+    WSGIProcessGroup cv
+    WSGIScriptAlias / /home/<user>/<project_directory>/CV/deployment/deployment/wsgi
+
+</VirtualHost>
+```
+
+The important parts are `WSGIScriptAlias`, which sets the entry point when the user goes to the <EC2_instance_ip_address> or <EC2_DNS_name> in the browser. Then the `WSGIDaemonProcess` specifies `python-home` which points to our venv, to know which python to use and the site-packages, then the `python-path` which is added to the global `PYTHONPATH` to be able to import our apps as python packages.
+
+
+Restart Apache:
+```
+sudo systemctl restart apache2
+```
+
+If failed, you can check syntax using:
+```
+apachectl configtest
+```
+
+For any error log:
+```
+cat /var/log/apache2/error.log
 ```
 
 
@@ -333,20 +490,4 @@ I found MobaXTerm a conventient 2-in-1 alternative. Here’s how to use to conne
 - Configure the ip=dns name and user=ubuntu
 - Add private key, which you saved when creating the instance
 
-### Apache configuration
-All details can be found [here](https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-apache-and-mod_wsgi-on-ubuntu-16-04)
 
-Restart Apache:
-```
-sudo systemctl restart apache2
-```
-
-If failed, you can check syntax using:
-```
-apachectl configtest
-```
-
-For any error log:
-```
-cat /var/log/apache2/error.log
-```
