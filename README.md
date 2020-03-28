@@ -204,6 +204,7 @@ This one will have an upload file form, and output processing part that renders 
 __semantic_segmentation.html__
 This one will have an upload file form, and output processing part that renders the uploaded image, and the segmented image that is passed from the backed:
 
+{% raw %}
 ```
 {% block content %}
  
@@ -229,6 +230,7 @@ This one will have an upload file form, and output processing part that renders 
 {% endblock %}
 
 ```
+{% endraw %}
 
 __object_detection.html__
 
