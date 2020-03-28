@@ -1,0 +1,31 @@
+{% extends 'cv_vid/base.html' %}
+
+
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="myfile">
+    <button type="submit">Upload</button>
+</form>
+
+
+
+{% if original_vid %}
+<!--img src="{{ original_vid }}" alt="Original" width="500" height="333"-->
+<video name='demo' controls autoplay width='50%' height='40%'>
+    <source src="{{original_vid}}" type="video/mp4"></source>
+</video>
+{% endif %}
+
+{% if segmented_vid %}
+<!--img src="{{ segmented_vid }}" alt="Segmented" width="500" height="333"-->
+<video name='demo' controls autoplay width='50%' height='40%'>
+    <source src="{{segmented_vid}}" type="video/mp4"></source>
+</video>
+
+{% endif %}
+
+
+{% endblock %}

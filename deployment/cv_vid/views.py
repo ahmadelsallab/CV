@@ -16,50 +16,20 @@ import torchvision.transforms as T
 from PIL import Image
 import numpy as np
 import cv2
+from moviepy.editor import VideoFileClip
 
 def base(request):
         
-    return render(request, 'cv/base.html')        
-
-
-def classification(request):
-    if request.method == 'POST' and request.FILES['myfile']:
-        
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        img_file = fs.url(filename)
-        
-        # `img` is a PIL image of size 224x224
-        img_file_ = settings.BASE_DIR + '/' + img_file
-        img = image.load_img(img_file_, target_size=(224, 224))
-        # `x` is a float32 Numpy array of shape (224, 224, 3)
-        x = image.img_to_array(img)
-
-        # We add a dimension to transform our array into a "batch"
-        # of size (1, 224, 224, 3)
-        x = np.expand_dims(x, axis=0)
-
-        # Finally we preprocess the batch
-        # (this does channel-wise color normalization)
-        x = preprocess_input(x)
-        model = VGG16(weights='imagenet')
-        preds = model.predict(x)
-        print('Predicted:', decode_predictions(preds, top=3)[0])
-        pred = decode_predictions(preds, top=1)[0][0][1]
-        #return render(request, 'cv/upload.html', {'uploaded_file_url': uploaded_file_url})
-        return render(request, 'cv/classification.html', {'original_img': img_file,
-                                                            'prediction': pred})
-        
-    return render(request, 'cv/classification.html')        
+    return render(request, 'cv_vid/base.html')        
+     
 
 def load_model():
     # load the model for inference 
     model = models.segmentation.fcn_resnet101(pretrained=True).eval()
     return model
 
-def get_segmentation(img_file, model):
-    input_image = Image.open(img_file)
+def get_segmentation(input_image, model):
+    #input_image = Image.open(img_file)
     preprocess = T.Compose([
         T.ToTensor(),
         T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
@@ -76,7 +46,9 @@ def get_segmentation(img_file, model):
     with torch.no_grad():
         output = model(input_batch)['out'][0]
     output_predictions = output.argmax(0)
-    return output_predictions
+    rgb = seg2rgb(output_predictions)
+    rgb = np.array(rgb)
+    return rgb
 
 
 label_colors = np.array([(0, 0, 0),  # 0=background
@@ -96,6 +68,7 @@ def seg2rgb(preds):
     # plot the semantic segmentation predictions of 21 classes in each color
     rgb = Image.fromarray(preds.byte().cpu().numpy())#.resize(preds.shape)
     rgb.putpalette(colors)
+    rgb = rgb.convert('RGB')
     return rgb
 
 
@@ -105,22 +78,30 @@ def semantic_segmentation(request):
         myfile = request.FILES['myfile']
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
-        img_file = fs.url(filename)
-        
-        # `img` is a PIL image of size 224x224
-        img_file_ = settings.BASE_DIR + '/' + img_file
-        img = Image.open(img_file_)
-        model = load_model()
-        preds = get_segmentation(img_file_, model)
-        rgb = seg2rgb(preds)
-        
-        seg_file = settings.MEDIA_ROOT + '/seg_img.png' 
-        rgb.save(seg_file)
+        video_file = fs.url(filename)
 
-        return render(request, 'cv/semantic_segmentation.html', {'original_img': img_file,
-                                                                 'segmented_img': '/media/seg_img.png'})
+        video_file_ = settings.BASE_DIR + '/' + video_file
+            
+        model = load_model()
+        video_output = 'output.mp4'
+
+        clip = VideoFileClip(video_file_)
         
-    return render(request, 'cv/semantic_segmentation.html')  
+        def process_frame(frame):        
+            #img = Image.open(img_file_)
+            #img = cv2.imread(filename)
+            #img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+            return get_segmentation(frame, model)
+        
+        video_output = settings.MEDIA_ROOT + '/seg_vid.mp4'
+        seg_clip = clip.fl_image(process_frame)
+        seg_clip.write_videofile(video_output, audio=False)
+
+
+        return render(request, 'cv_vid/semantic_segmentation.html', {'original_vid': video_file,
+                                                                     'segmented_vid': '/media/seg_vid.mp4'})
+    return render(request, 'cv_vid/semantic_segmentation.html')  
 
 COCO_INSTANCE_CATEGORY_NAMES = [
     '__background__', 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
