@@ -494,7 +494,7 @@ All details can be found [here](https://www.digitalocean.com/community/tutorials
 Now you need to edit the apache2 configuration file:
 ```
 sudo nano /etc/apache2/sites-available/000-default.conf
-``
+```
 
 This file tells Apache which entry point to serve, when called with a certain url. You need to add the following:
 
