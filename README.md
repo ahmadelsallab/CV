@@ -174,28 +174,28 @@ __classification.html__
 This one will have an upload file form, and output processing part that renders the uploaded image + the returned prediction:
 
 ```
-{% extends 'base.html' %}
- 
- 
- 
-{% block content %}
- 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="myfile">
-    <button type="submit">Upload</button>
-  </form>
- 
- 
- 
-  {% if original_img %}
-  <h3>{{prediction}}</h3>
-  <img src="{{ original_img }}" alt="Prediction" width="500" height="333">
- 
-  {% endif %}
- 
- 
-{% endblock %}
+	{% extends 'base.html' %}
+
+
+
+	{% block content %}
+
+	<form method="post" enctype="multipart/form-data">
+	    {% csrf_token %}
+	    <input type="file" name="myfile">
+	    <button type="submit">Upload</button>
+	  </form>
+
+
+
+	  {% if original_img %}
+	  <h3>{{prediction}}</h3>
+	  <img src="{{ original_img }}" alt="Prediction" width="500" height="333">
+
+	  {% endif %}
+
+
+	{% endblock %}
 ```
 
 
