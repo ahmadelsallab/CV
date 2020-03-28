@@ -2,8 +2,9 @@
 
 The aim of this tutorial is to demonstrate how to deploy ML and CV models using Django. 
 
-I had gone through the process of deploying ML models in a Django website, on AWS EC2 instances. The process is a bit tedious and full of small details, so I thought to share my experience.
+I have gone through the process of deploying ML models in a Django website, on AWS EC2 instances. The process is a bit tedious and full of small details, so I thought to share my experience.
 
+The target is not to have the best and most secure website, so there are a lot of security issues, non-standard web development practices, simple styles,...etc. The main target here is to demonstrate the process of deploying ML model in a website using AWS EC2.
 
 # Layout of the tutorial
 
@@ -24,21 +25,53 @@ I had gone through the process of deploying ML models in a Django website, on AW
 
 _Source: Stanford Course CS231n. Url: https://ml4a.github.io/images/figures/localization-detection.png_
 
+We will demo three computer vision tasks, where in each of them the website asks to load an image, and it produces the corresponding output.
+
 Since our target is just to demo the deployment, we use pre-trained models. Note that: all the steps mentioned are still applicable in case of custom trained models.
-We use examples from the top two ML frameworks: Tensorflow/Keras and Pytorch 
+We use examples from the top two ML frameworks: Tensorflow/Keras and Pytorch. 
 
 The tasks demonstrated are (click on each to see the corresponding colab):
 
 - [Classification](https://colab.research.google.com/drive/1PFfQB11RKzpbpKhQ57yIN8OnLLNFoIXe): We use pre-trained VGG model with Keras.
 Details can be found in this [colab](https://colab.research.google.com/drive/1PFfQB11RKzpbpKhQ57yIN8OnLLNFoIXe).
 
+The user loads and image, and gets a class representing the most dominant object class in the image, according to [ImageNet dataset classes](https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a).
+
 ![cls](imgs/cls.png)
 
-- [Semantic segmentaion](https://colab.research.google.com/drive/18JS1Uks8OGut_q-SQLGtu9xbrMpNhvnA?authuser=1#scrollTo=zc27WzsQTLdk): We use pre-trained FCN model from torchvision. Details can be found in this [colab](https://colab.research.google.com/drive/1qPDMWYzqdqEOAut7eDp1jFLREfEm1Kx9).
+- [Semantic segmentaion](https://colab.research.google.com/drive/1qPDMWYzqdqEOAut7eDp1jFLREfEm1Kx9): We use pre-trained FCN model from torchvision. Details can be found in this [colab](https://colab.research.google.com/drive/1qPDMWYzqdqEOAut7eDp1jFLREfEm1Kx9).
+
+The user loads and image, and gets an image that represent the semantic pixel wise mask of all the classes in the image according to [COCOO dataset classes](https://pytorch.org/docs/stable/torchvision/models.html#object-detection-instance-segmentation-and-person-keypoint-detection): 
+
+```
+['__background__', 'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus',
+ 'car', 'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse', 'motorbike',
+ 'person', 'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor']
+```
+
 
 ![SS](imgs/SS.png)
 
 - [Object detection](https://colab.research.google.com/drive/1rwS0BNfaejB7_8mEXVLlZKSpvBjaBq2I?authuser=1#scrollTo=SvfygrRHMw0F): We use pre-trained Faster R-CNN model from torchvision. . Details can be found in this [colab](https://colab.research.google.com/drive/1UTmfq11e_Lv2ZLGtJOYFoVuPBGe0w9FG).
+
+The user loads and image, and gets an image with single/multiple objects detected with an Object Bounding Box (OBB), and its class name, with certainity more than 80% (threshold). Classes are from [COCOO dataset object detection classes](https://www.learnopencv.com/faster-r-cnn-object-detection-with-pytorch/): 
+
+```
+[
+    '__background__', 'person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
+    'train', 'truck', 'boat', 'traffic light', 'fire hydrant', 'N/A', 'stop sign',
+    'parking meter', 'bench', 'bird', 'cat', 'dog', 'horse', 'sheep', 'cow',
+    'elephant', 'bear', 'zebra', 'giraffe', 'N/A', 'backpack', 'umbrella', 'N/A', 'N/A',
+    'handbag', 'tie', 'suitcase', 'frisbee', 'skis', 'snowboard', 'sports ball',
+    'kite', 'baseball bat', 'baseball glove', 'skateboard', 'surfboard', 'tennis racket',
+    'bottle', 'N/A', 'wine glass', 'cup', 'fork', 'knife', 'spoon', 'bowl',
+    'banana', 'apple', 'sandwich', 'orange', 'broccoli', 'carrot', 'hot dog', 'pizza',
+    'donut', 'cake', 'chair', 'couch', 'potted plant', 'bed', 'N/A', 'dining table',
+    'N/A', 'N/A', 'toilet', 'N/A', 'tv', 'laptop', 'mouse', 'remote', 'keyboard', 'cell phone',
+    'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'N/A', 'book',
+    'clock', 'vase', 'scissors', 'teddy bear', 'hair drier', 'toothbrush'
+]
+```
 
 ![OBB](imgs/OBB.png)
 
