@@ -4,7 +4,6 @@ The aim of this tutorial is to demonstrate how to deploy ML and CV models using 
 
 I had gone through the process of deploying ML models in a Django website, on AWS EC2 instances. The process is a bit tedious and full of small details, so I thought to share my experience.
 
-More details [here](https://docs.google.com/document/d/1TnhdRsnZlnHUEUlko6-XeMhBXONC3PQpjLp1IhExnMc/edit#).
 
 # Layout of the tutorial
 
