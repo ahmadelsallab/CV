@@ -201,6 +201,15 @@ In this way, this is the main _maestro_ of the app routes.
 We need front end html files that handle the requests or urls above.
 Those reside in the cv/templates/cv folder.
 
+For django to be able to find your custom templates, you must edit the `TEMPLATES` variable in settings.py as follows:
+```
+TEMPLATES = [
+    {
+        ...
+        'DIRS': [os.path.join(BASE_DIR, 'cv/templates'),os.path.join(BASE_DIR, 'cv_vid/templates')],
+	...
+```
+
 __base.html__
 This is just a fancy website theme, that all the other 3 tasks templates inherit from. It uses bootstrap for a modern look and feel.
 
