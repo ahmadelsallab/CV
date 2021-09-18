@@ -480,7 +480,15 @@ pip install virtualenv
 Now create and activate the env
 ```
 virtualenv venv
+
 source venev/bin/activate
+```
+
+In python3:
+
+```
+python3 -m venv /path/to/new/virtual/environment
+
 ```
 
 Now inside the venv, we install the requirements
