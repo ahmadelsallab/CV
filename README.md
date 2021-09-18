@@ -462,6 +462,13 @@ I found MobaXTerm a conventient 2-in-1 alternative. Here’s how to use to conne
 - Now you are connected!
 ![MobaXterm_connected](imgs/MobaXterm_connected.png)
 
+Prepare the basic packages:
+
+```
+sudo apt update & sudo apt upgrade    
+sudo apt install python3-pip
+python3 -m pip install --upgrade pip
+```
 
 Now get the code to the server
 
