@@ -485,7 +485,7 @@ python3 manage.py runserver 0.0.0.0:8000
 ```
 ```
 sudo ufw allow 8000
-python manage.py runserver 0.0.0.0:8000
+python3 manage.py runserver 0.0.0.0:8000
 ```
 You will get an error like:
 ```
@@ -495,6 +495,17 @@ Modify your settings file to enable the remote host IP:
 ```
 ALLOWED_HOSTS = ["server_domain_or_IP"]
 ```
+
+Now, you will notice if you closed SSH, the website is down.
+As a workaround, we can run the server in the background using the screen command:
+
+```
+screen python3 manage.py runserver 0.0.0.0:8000
+```
+Then `Ctrl+a+d` to detach the screen. Now the website will keep running.
+
+If you want to stop at any time, just ssh to the instance, and see the running processes `ps -a` or `screen -ls`, and kill it (usually it is a python or  python3 process). You can kill with screen `screen -X -S [process name, ex: 32803.pts-0.ip-172-31-29-101] quit`
+
 # Your own wbesite
 
 Now get the code to the server
