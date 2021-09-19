@@ -420,8 +420,10 @@ Now you are good to go to the server to deploy from there.
 - Review and Launch 
 ![launch_rev](imgs/launch_rev.png)
 
-- Configure the security policy. Enable ALL traffic on inbound and outbound rules
+- Configure the security policy. Enable ALL traffic on inbound and outbound rules. 
 ![security_policy](imgs/security_policy.png)
+
+Make sure to add for Custom TCP as well as SSH for both inbound and outbound, and add port range 8000 in inbound rules.
 
 ![inbound_rules](imgs/inbound_rules.png)
 
@@ -469,6 +471,31 @@ sudo apt update & sudo apt upgrade
 sudo apt install python3-pip
 python3 -m pip install --upgrade pip
 ```
+# Try demo website
+At this point, it's nice to start a demo django website to make sure your instance is accessible:
+
+
+```
+sudo apt install python3-django
+mkdir website
+cd website
+django-admin startproject deployment
+cd deployment/
+python3 manage.py runserver 0.0.0.0:8000
+```
+```
+sudo ufw allow 8000
+python manage.py runserver 0.0.0.0:8000
+```
+You will get an error like:
+```
+Invalid HTTP_HOST header: 'ec2-XXXX.compute-1.amazonaws.com:8000'. You may need to add 'ec2-XXXX.compute-1.amazonaws.com' to ALLOWED_HOSTS
+```
+Modify your settings file to enable the remote host IP:
+```
+ALLOWED_HOSTS = ["server_domain_or_IP"]
+```
+# Your own wbesite
 
 Now get the code to the server
 
